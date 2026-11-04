@@ -1,0 +1,79 @@
+<!doctype html>
+<!--
+MIT License
+
+Copyright (c) 2026 Daniel Raskopin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>attribution — live demo</title><style>
+:root{font:16px/1.55 system-ui,sans-serif;color:#18312e;background:#f3f5ee;color-scheme:light}*{box-sizing:border-box}body{margin:0}main{max-width:850px;margin:60px auto;padding:0 24px}header{margin-bottom:30px}.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-size:12px;color:#48665d}h1{font-size:clamp(36px,7vw,60px);line-height:1.1;letter-spacing:-.045em;margin:12px 0}h2{font-size:19px}p{max-width:70ch}.muted{color:#506860}.card{background:white;border:1px solid #d8e1d5;border-radius:18px;padding:24px;margin:20px 0;box-shadow:0 8px 28px #16332d08}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}button,.button{font:inherit;cursor:pointer;background:#165d49;color:white;border:0;padding:10px 17px;border-radius:8px;text-decoration:none;display:inline-block}button.secondary{background:#e6eee5;color:#18312e}button:hover,.button:hover{filter:brightness(.94)}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #d88326;outline-offset:3px}input,select{font:inherit;border:1px solid #b3c5b8;border-radius:6px;padding:8px;max-width:100%;background:white;color:inherit}label{display:block}pre,code{font-family:ui-monospace,monospace}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f1f5ef;padding:16px;border-radius:8px}a{color:#165d49}footer{font-size:13px;color:#506860;margin:32px 0}.status{font-size:28px;font-weight:650;margin:10px 0}.success{color:#176140}.error{color:#9c3527}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:10px 6px;border-bottom:1px solid #e0e7dc}td input:not([type=checkbox]){width:100%}.scroll{overflow-x:auto}progress{width:100%;accent-color:#165d49}output{display:block}.badge{background:#e9f0e4;padding:3px 9px;border-radius:20px;font-size:13px}noscript{display:block;color:#9c3527}
+</style></head>
+<body><main><header><span class="eyebrow">roitrail / standalone libraries</span><h1>attribution</h1><p class="muted">8 marketing attribution models in ~1 KB.</p><span class="badge">Offline demo · No dependencies</span></header>
+<noscript>Enable JavaScript to run this demo.</noscript>
+
+<section class="card"><h2>1. Build a journey</h2><p class="muted">Oldest touch first. Edit the channels and paid flags. Use the first three or all four touches.</p><label>Number of touches <select id="count"><option value="3">3</option><option value="4" selected>4</option></select></label>
+<div class="scroll"><table id="touches"><thead><tr><th>Touch</th><th>Channel</th><th>Paid</th></tr></thead><tbody><tr><td>1</td><td><input aria-label="Channel for touch 1" value="paid_search"></td><td><input aria-label="Paid touch 1" type="checkbox" checked></td></tr><tr><td>2</td><td><input aria-label="Channel for touch 2" value="organic"></td><td><input aria-label="Paid touch 2" type="checkbox" ></td></tr><tr><td>3</td><td><input aria-label="Channel for touch 3" value="retargeting"></td><td><input aria-label="Paid touch 3" type="checkbox" checked></td></tr><tr><td>4</td><td><input aria-label="Channel for touch 4" value="direct"></td><td><input aria-label="Paid touch 4" type="checkbox" ></td></tr></tbody></table></div></section>
+<section class="card"><h2>2. Choose a model</h2><label>Attribution model <select id="model"></select></label>
+<fieldset id="custom" hidden><legend>Custom position weights</legend><div class="row"><label>First <input id="first" type="number" min="0" value="40"></label><label>All middle <input id="middle" type="number" min="0" value="20"></label><label>Last <input id="last" type="number" min="0" value="40"></label></div></fieldset>
+<p id="rule" class="muted"></p><p id="error" class="error" role="alert"></p>
+<div id="result" aria-live="polite"></div><p id="winner"></p><pre id="json"></pre></section>
+<p class="muted">Single-touch models award one winner. Multi-touch models divide credit. Decay uses the position in this journey, not elapsed time. “direct” is case-sensitive.</p>
+
+<footer>MIT © 2026 Daniel Raskopin · Part of <a href="https://github.com/web-frank/roitrail">roitrail</a>.<br>This file includes the library; no install, server or build is needed.</footer>
+</main><script>
+/*! MIT © 2026 Daniel Raskopin. Embedded library generated from src/index.ts. */
+/* BEGIN EMBEDDED LIBRARY */
+"use strict";var Library=(()=>{var u=Object.defineProperty;var p=Object.getOwnPropertyDescriptor;var m=Object.getOwnPropertyNames;var b=Object.prototype.hasOwnProperty;var g=(e,t)=>{for(var r in t)u(e,r,{get:t[r],enumerable:!0})},x=(e,t,r,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let n of m(t))!b.call(e,n)&&n!==r&&u(e,n,{get:()=>t[n],enumerable:!(a=p(t,n))||a.enumerable});return e};var y=e=>x(u({},"__esModule",{value:!0}),e);var w={};g(w,{MODELS:()=>c,attribute:()=>_,credits:()=>f,isModel:()=>d});var c=["first","last","last_paid","linear","u_shape","time_decay","reverse_decay","custom"];function d(e){return c.includes(e)}function T(e,t){if(t==="first")return e[0];if(t==="last_paid"){for(let r=e.length-1;r>=0;r--)if(e[r].paid)return e[r];for(let r=e.length-1;r>=0;r--)if(e[r].channel!=="direct")return e[r]}return e[e.length-1]}function l(e,t,r,a){return e===1?[1]:e===2?[t,a]:Array.from({length:e},(n,s)=>s===0?t:s===e-1?a:r/(e-2))}function f(e,t,r=[40,20,40]){if(!d(t))throw new TypeError("Unknown attribution model");let a=e.length;if(!a)return[];let n;switch(t){case"first":case"last":case"last_paid":return[{visit:T(e,t),share:1}];case"linear":n=e.map(()=>1);break;case"u_shape":n=l(a,40,20,40);break;case"time_decay":n=e.map((i,o)=>o+1);break;case"reverse_decay":n=e.map((i,o)=>a-o);break;case"custom":if(r.length!==3||r.some(i=>!Number.isFinite(i)||i<0)||!r.some(i=>i>0))throw new RangeError("Expected three finite nonnegative weights, at least one positive");n=l(a,...r);break}let s=n.reduce((i,o)=>Math.max(i,o),0);if(!s)throw new RangeError("Weights for the available visits must have a positive total");n=n.map(i=>i/s);let h=n.reduce((i,o)=>i+o,0);return e.map((i,o)=>({visit:i,share:n[o]/h}))}function _(e,t,r){let a;for(let n of f(e,t,r))(!a||n.share>=a.share)&&(a=n);return a?.visit??null}return y(w);})();
+/* END EMBEDDED LIBRARY */
+</script><script>
+
+const model = document.getElementById('model');
+for (const name of Library.MODELS) { const option = document.createElement('option'); option.value = name; option.textContent = name; model.append(option); }
+model.value = 'u_shape';
+const rules = { first: '100% to the first touch.', last: '100% to the last touch.', last_paid: 'Last paid touch; then last non-direct; then last touch.', linear: 'Every touch receives an equal share.', u_shape: '40% first, 20% shared by the middle, 40% last.', time_decay: 'Position weights: 1, 2, …, n.', reverse_decay: 'Position weights: n, …, 2, 1.', custom: 'First / all middle / last weights, normalized to 100%.' };
+function calculate() {
+  const count = Number(document.getElementById('count').value);
+  const rows = [...document.querySelectorAll('#touches tbody tr')];
+  rows.forEach((row, index) => { row.hidden = index >= count; });
+  const visits = rows.slice(0, count).map((row, index) => ({ touch: index + 1, channel: row.querySelector('input').value.trim() || 'direct', paid: row.querySelector('[type=checkbox]').checked }));
+  const weights = ['first', 'middle', 'last'].map(id => Number(document.getElementById(id).value));
+  document.getElementById('custom').hidden = model.value !== 'custom';
+  document.getElementById('rule').textContent = rules[model.value];
+  document.getElementById('error').textContent = '';
+  const result = document.getElementById('result'); result.replaceChildren();
+  document.getElementById('winner').textContent = ''; document.getElementById('json').textContent = '';
+  try {
+    const split = Library.credits(visits, model.value, weights);
+    for (const visit of visits) {
+      const share = split.find(credit => credit.visit === visit)?.share || 0;
+      const label = document.createElement('label'); label.textContent = 'Touch ' + visit.touch + ' · ' + visit.channel + ' — ' + (share * 100).toFixed(1) + '%';
+      const bar = document.createElement('progress'); bar.max = 1; bar.value = share; label.append(bar); result.append(label);
+    }
+    const best = Library.attribute(visits, model.value, weights);
+    document.getElementById('winner').textContent = 'Representative touch: ' + best.touch + ' · ' + best.channel + ' (latest wins ties).';
+    document.getElementById('json').textContent = JSON.stringify(split, null, 2);
+  } catch (error) { document.getElementById('error').textContent = error.message; }
+}
+document.addEventListener('input', calculate); document.addEventListener('change', calculate);
+calculate();
+
+</script></body></html>
