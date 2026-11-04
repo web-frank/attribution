@@ -1,5 +1,7 @@
 # attribution
 
+**English** · [Русский](README.ru.md)
+
 8 marketing attribution models in ~1 KB
 
 **714 bytes min+gzip** (1,372 bytes minified ESM). Zero runtime dependencies. ESM, CommonJS and TypeScript declarations.
